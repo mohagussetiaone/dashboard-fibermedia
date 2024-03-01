@@ -14,25 +14,25 @@ export const authLoader = async ({ request }) => {
   }
 
   // Redirect to '/home' if the user is trying to access '/login' or '/signup' and a token exists
-  if (
-    authToken &&
-    (url.pathname === '/' ||
-      url.pathname === '/signin' ||
-      url.pathname === '/signup' ||
-      url.pathname === '/reset-password')
-  ) {
-    return redirect('/dashboard');
-  }
+  // if (
+  //   authToken &&
+  //   (url.pathname === '/' ||
+  //     url.pathname === '/signin' ||
+  //     url.pathname === '/signup' ||
+  //     url.pathname === '/reset-password')
+  // ) {
+  //   return redirect('/dashboard');
+  // }
 
   // Redirect to '/login' if there's no token and the user is not trying to access '/login'
-  if (
-    !authToken &&
-    url.pathname !== '/signin' &&
-    url.pathname !== '/signup' &&
-    url.pathname !== '/reset-password'
-  ) {
-    return redirect('/signin');
-  }
+  // if (
+  //   !authToken &&
+  //   url.pathname !== '/signin' &&
+  //   url.pathname !== '/signup' &&
+  //   url.pathname !== '/reset-password'
+  // ) {
+  //   return redirect('/signin');
+  // }
 
   // if (!authToken) {
   //   return redirect("/");
@@ -53,25 +53,25 @@ export const useAuthCheck = () => {
   const [isValid, setIsValid] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        console.log('sesi login', data);
-        if (error) throw new Error(error.message);
-        if (data) {
-          setIsValid(data);
-          // navigate("/home");
-        }
-      } catch (error) {
-        toast.error('Token Kadaluarsa, silahkan login kembali', {
-          duration: 2350,
-        });
-        navigate('/signin');
-      }
-    };
-    checkAuth();
-  }, [navigate]);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const { data, error } = await supabase.auth.getSession();
+  //       console.log('sesi login', data);
+  //       if (error) throw new Error(error.message);
+  //       if (data) {
+  //         setIsValid(data);
+  //         // navigate("/home");
+  //       }
+  //     } catch (error) {
+  //       toast.error('Token Kadaluarsa, silahkan login kembali', {
+  //         duration: 2350,
+  //       });
+  //       navigate('/signin');
+  //     }
+  //   };
+  //   checkAuth();
+  // }, [navigate]);
 
   console.log('isValid', isValid);
   return isValid;

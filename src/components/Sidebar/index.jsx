@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { routes } from 'routes';
+import { HiX, HiOutlineChevronLeft, HiChevronRight } from 'react-icons/hi';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import SidebarLinks from './components/Links';
+import useToggleSidebar from 'store/ToggleSidebar';
+import { routes, Protectedroutes } from 'routes';
 import { AnimatePresence, motion } from 'framer-motion';
-import useToggleSidebar from 'store/toggleSidebar';
-import SidebarLinks from './components/Links.jsx';
-import LogoJajanian from 'assets/logo/Jajanian.png';
-import { HiArrowLeft, HiChevronRight } from 'react-icons/hi';
+import logofmi from '../../assets/logo/logofmi.png';
+import iconfmi from '../../assets/logo/iconfmi.png';
 
 const determineInitialSidebarState = () => {
   return window.innerWidth > 1024;
 };
 
-const index = ({ open, onClose }) => {
+const Sidebar = ({ open, onClose }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     determineInitialSidebarState(),
   );
@@ -19,36 +21,32 @@ const index = ({ open, onClose }) => {
     setIsSidebarOpen(!isSidebarOpen);
     setSidebarOpen(isSidebarOpen);
   };
+  const combinedRoutes = [...routes, ...Protectedroutes];
 
   const sidebarVariants = {
-    open: { width: '360px' },
+    open: { width: '355px' },
     closed: { width: '64px' },
   };
 
   return (
     <>
       <motion.div
-        className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all md:!z-50 md:hidden lg:!z-50 xl:!z-0 dark:bg-navy-800 dark:text-white ${
-          open ? 'translate-x-0 w-[80%]' : '-translate-x-96'
+        className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all md:!z-50 md:hidden lg:!z-50 xl:!z-0 dark:!bg-navy-800 dark:text-white ${
+          open ? 'translate-x-0' : '-translate-x-96'
         }`}
       >
         <span
-          className="absolute right-2 md:right-4 top-4 block cursor-pointer md:hidden"
+          className="absolute right-4 top-4 block cursor-pointer md:hidden"
           onClick={onClose}
         >
-          <HiArrowLeft className="w-6 h-6" />
+          <HiX className="w-7 h-7" />
         </span>
-        <div className={`mx-[50px] mt-4 flex items-center`}>
-          <div className="flex gap-3 ml-1 mt-1 h-2.5 font-poppins text-[26px] font-bold text-navy-700 dark:text-white">
-            <img
-              src={LogoJajanian}
-              alt="logo.png"
-              className="w-[40px] h-[40px]"
-            />
-            <h3>Jajanian</h3>
+        <div className={`mx-[56px] mb-3 flex items-center`}>
+          <div className="ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
+            <img src={logofmi} alt="logo.png" className="max-w-[190px]" />
           </div>
         </div>
-        <div className="mb-7 mt-[50px] h-px bg-gray-300 dark:bg-white/30" />
+        <div className="mb-7 mt-[58px] h-px bg-gray-300 dark:bg-white/30" />
         <ul className="mb-auto pt-1">
           <SidebarLinks routes={routes} toggleSidebar={toggleSidebar} />
         </ul>
@@ -63,25 +61,19 @@ const index = ({ open, onClose }) => {
         <div className="sticky top-0 -ml-1">
           <div className="flex flex-col min-h-screen justify-between">
             <div>
-              <div className="ml-9 md:ml-7 xl:ml-10 flex items-center justify-between py-6">
+              <div className="ml-9 md:ml-7  xl:ml-10 flex items-center justify-between">
                 <AnimatePresence>
                   {isSidebarOpen ? (
-                    <>
-                      <img
-                        src={LogoJajanian}
-                        alt="iconnethome"
-                        className="-ml-2 md:-ml-2 xl:-ml-4 h-8 w-8"
-                        onClick={toggleSidebar}
-                      />
-                      <h3 className="w-18 text-xl h-6 xl:w-18 my-1 xl:h-6">
-                        Jajanian
-                      </h3>
-                    </>
+                    <img
+                      src={logofmi}
+                      alt="logonethome.jpg"
+                      className="w-44 -mt-2"
+                    />
                   ) : (
                     <img
-                      src={LogoJajanian}
+                      src={iconfmi}
                       alt="iconnethome"
-                      className="-ml-2 md:-ml-2 xl:-ml-4 h-8 w-8"
+                      className="my-8 -ml-2 md:-ml-2 xl:-ml-4 object-contain"
                       onClick={toggleSidebar}
                     />
                   )}
@@ -89,12 +81,12 @@ const index = ({ open, onClose }) => {
                 <AnimatePresence>
                   <span className="cursor-pointer" onClick={toggleSidebar}>
                     {isSidebarOpen && (
-                      <HiArrowLeft className="mr-4 h-5 w-5 md:mr-3" />
+                      <RxHamburgerMenu className="mr-4 h-6 w-6 md:mr-3" />
                     )}
                   </span>
                 </AnimatePresence>
               </div>
-              <hr className="mb-4 dark:border-gray-50" />
+              <hr className="mb-4 dark:border-brand-500" />
               <ul className={`mb-auto pt-1 ${isSidebarOpen && 'mr-45'}`}>
                 <SidebarLinks
                   routes={routes}
@@ -117,4 +109,4 @@ const index = ({ open, onClose }) => {
   );
 };
 
-export default index;
+export default Sidebar;
